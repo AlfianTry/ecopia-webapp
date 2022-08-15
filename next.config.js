@@ -3,15 +3,48 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 });
 
-module.exports = withBundleAnalyzer({
-  eslint: {
-    dirs: ['.'],
-  },
-  poweredByHeader: false,
-  trailingSlash: true,
-  basePath: '',
-  // The starter code load resources from `public` folder with `router.basePath` in React components.
-  // So, the source code is "basePath-ready".
-  // You can remove `basePath` if you don't need it.
-  reactStrictMode: true,
-});
+const { PHASE_DEVELOPMENT_SERVER } = require('next/constants');
+
+const path = require('path');
+
+module.exports = (phase) => {
+  if (phase === PHASE_DEVELOPMENT_SERVER) {
+    return {
+      /* Localhost on development for next/image component */
+      images: {
+        domains: ['localhost', 'res.cloudinary.com'],
+      },
+    };
+  }
+
+  return withBundleAnalyzer({
+    generateInDevMode: false,
+    dontAutoRegisterSw: true,
+    generateSw: false,
+    workboxOpts: {
+      swDest: 'static/service-worker.js',
+      swSrc: path.join(__dirname, 'sw.js'),
+    },
+    // I'm using cloudinary as a media provider, but you can use any other provider
+
+    // This are the strapi docs of how to set a different provider
+    // https://strapi.io/documentation/v3.x/plugins/upload.html#using-a-provider
+    // And a list of the available providers
+    // https://www.npmjs.com/search?q=strapi-provider-upload-
+
+    // Also, this are the docs of to change the provider on next.js
+    // https://nextjs.org/docs/basic-features/image-optimization#configuration
+
+    images: {
+      domains: ['res.cloudinary.com'],
+    },
+    async rewrites() {
+      return [
+        {
+          source: '/service-worker.js',
+          destination: '/_next/static/service-worker.js',
+        },
+      ];
+    },
+  });
+};

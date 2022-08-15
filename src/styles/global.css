@@ -1,21 +1,40 @@
 @tailwind base;
-
-a {
-  @apply text-blue-700;
-}
-
-a:hover {
-  @apply border-b-2 border-blue-700;
-}
-
 @tailwind components;
-
 @tailwind utilities;
 
-.content p {
-  @apply my-6;
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: "Poppins", sans-serif;
 }
 
-.content ul {
-  @apply my-6;
+.bg-hero {
+  filter: brightness(0.5);
+}
+
+* {
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+}
+
+.about-base-color {
+  background: linear-gradient(90deg, #068a4f 30%, #e9e9e9 30%);
+}
+@media screen and (max-width: 1024px) {
+  .about-base-color {
+    background: #068a4f;
+  }
+}
+
+@media screen and (min-width: 1920) {
+  .about-base-color {
+    background: linear-gradient(90deg, #068a4f 35%, #e9e9e9 30%);
+  }
+}
+
+@media screen and (min-width: 2540px) {
+  .about-base-color {
+    background: #068a4f;
+  }
 }

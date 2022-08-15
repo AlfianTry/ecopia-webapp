@@ -1,6 +1,7 @@
 export const AppConfig = {
-  site_name: 'Starter',
-  title: 'Nextjs Starter',
-  description: 'Starter code for your Nextjs Boilerplate with Tailwind CSS',
-  locale: 'en',
+  site_name: 'Ecopia',
+  title: 'Ecopia | Healthy Food Portal',
+  description:
+    'Ecopia ingin mengubah persepsi masyarakat Indonesia terhadap makanan sehat.',
+  locale: 'id',
 };
